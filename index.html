@@ -4,10 +4,10 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no">
-    <title>Wallet Interface - YGaming</title>
+    <title>YGaming</title>
 
     <link rel="manifest" href="manifest.json">
-    <meta name="theme-color" content="#0b111a">
+    <meta name="theme-color" content="#000000">
 
     <meta name="apple-mobile-web-app-capable" content="yes">
     <meta name="apple-mobile-web-app-status-bar-style" content="black-translucent">
@@ -66,7 +66,7 @@
             position: relative;
         }
 
-        /* --- TOP HEADER (FIXO) --- */
+        /* --- TOP HEADER --- */
         .top-header {
             background-color: var(--bg-nav);
             height: 60px;
@@ -90,84 +90,89 @@
         }
 
         .logo-img {
-            height: 80px;
+            height: 65px;
             width: auto;
             display: block;
         }
 
+        /* --- NOVOS ESTILOS DO HEADER --- */
         .header-actions {
+            display: flex;
+            align-items: center;
+            gap: 12px;
+        }
+
+        .counter-pill {
+            background-color: #111826;
+            border: 1px solid #1d273a;
+            border-radius: 20px;
+            padding: 5px 12px;
             display: flex;
             align-items: center;
             gap: 10px;
         }
 
-        .header-balance {
-            background-color: #171d2c;
-            border: 1px solid rgba(249, 157, 33, 0.2);
-            border-radius: 12px;
-            padding: 6px 12px;
+        .counter-item {
             display: flex;
-            flex-direction: row;
             align-items: center;
-            gap: 12px;
-            white-space: nowrap;
-        }
-
-        .header-balance .main-val {
+            gap: 6px;
             color: var(--accent-orange);
             font-weight: 700;
             font-size: 14px;
+        }
+
+        .separator {
+            color: #74819a;
+            font-weight: 300;
+            font-size: 14px;
+            opacity: 0.4;
+        }
+
+        .lang-selector {
             display: flex;
             align-items: center;
-            gap: 4px;
+            justify-content: center;
+            cursor: pointer;
         }
 
-        .coin-icon-small {
-            width: 14px;
-            height: 14px;
-            background: radial-gradient(circle, #ffe17d 0%, #e6a323 100%);
-            border-radius: 50%;
-            border: 1px solid #ffcc66;
-            box-shadow: inset 0 -1px 2px rgba(0, 0, 0, 0.3);
-        }
-
-        .header-balance .bonus-val {
-            font-size: 11px;
-            color: var(--text-secondary);
-        }
-
-        .header-balance .bonus-val span {
-            color: var(--accent-orange);
-            font-weight: 600;
-        }
-
-        .lang-text {
-            font-size: 13px;
-            font-weight: 700;
-            color: #ffffff;
-            letter-spacing: 0.5px;
-        }
-
-        .theme-toggle {
+        .theme-toggle-container {
+            width: 48px;
+            height: 28px;
             background-color: #1e2535;
-            width: 44px;
-            height: 24px;
-            border-radius: 12px;
+            border-radius: 14px;
+            position: relative;
+            cursor: pointer;
             display: flex;
             align-items: center;
-            justify-content: flex-end;
-            padding: 2px 4px;
-            flex-shrink: 0;
         }
 
-        .theme-toggle svg {
-            width: 14px;
-            height: 14px;
-            stroke: var(--accent-orange);
+        .toggle-switch {
+            width: 22px;
+            height: 22px;
+            background-color: #111826;
+            border-radius: 50%;
+            position: absolute;
+            right: 3px;
+            display: flex;
+            align-items: center;
+            justify-content: center;
         }
 
-        .menu-icon {
-            flex-shrink: 0;
+        .menu-hamburger {
+            display: flex;
+            flex-direction: column;
+            gap: 5px;
+            cursor: pointer;
+            width: 22px;
+            margin-left: 4px;
+        }
+
+        .menu-hamburger span {
+            display: block;
+            width: 100%;
+            height: 2px;
+            background-color: #ffffff;
+            border-radius: 2px;
         }
 
         /* --- ÁREA DE CONTEÚDO (SCROLLÁVEL) --- */
@@ -175,6 +180,8 @@
             flex: 1;
             overflow-y: auto;
             padding: 24px 16px 90px 16px;
+            position: relative;
+            z-index: 8;
         }
 
         .scrollable-content::-webkit-scrollbar {
@@ -264,7 +271,7 @@
             margin-bottom: 24px;
         }
 
-        /* --- BOTÃO SACAR AUMENTADO E COM ANIMAÇÃO MAIS RÁPIDA --- */
+        /* --- BOTÃO SACAR --- */
         .btn-sacar {
             width: 100%;
             margin: 0 auto;
@@ -370,7 +377,7 @@
             color: var(--accent-red);
         }
 
-        /* --- CHART CARD MODIFICADO PARA BORDA A BORDA --- */
+        /* --- CHART CARD --- */
         .chart-card {
             background-color: var(--bg-card);
             border-radius: 16px;
@@ -449,7 +456,6 @@
             margin-bottom: 4px;
         }
 
-        /* Animação do Gráfico e Loader */
         .chart-container {
             height: 140px;
             width: 100%;
@@ -611,16 +617,6 @@
             gap: 8px;
         }
 
-        .tag-giro {
-            background: rgba(249, 157, 33, 0.1);
-            color: var(--accent-orange);
-            border: 1px solid rgba(249, 157, 33, 0.3);
-            font-size: 10px;
-            padding: 2px 6px;
-            border-radius: 4px;
-            font-weight: 600;
-        }
-
         .history-details p {
             font-size: 12px;
             color: var(--text-secondary);
@@ -633,7 +629,7 @@
             color: var(--text-yellow);
         }
 
-        /* --- BOTTOM TAB BAR (FIXA E PREGADA NO FUNDO) --- */
+        /* --- BOTTOM TAB BAR --- */
         .bottom-tab-bar {
             position: absolute;
             bottom: 0;
@@ -750,68 +746,66 @@
             margin-bottom: 15px;
         }
 
-        /* --- NOTIFICAÇÃO DO BANCO (Maior e Atrás) --- */
+        /* --- NOTIFICAÇÃO DO BANCO --- */
         .bank-notification {
             position: absolute;
-            top: -60px;
+            top: -120px;
             left: 0;
             right: 0;
             margin: 0 auto;
-            /* Essa é a linha mágica que centraliza */
-            width: 95%;
-            background: #ffffff;
-            color: #000;
-            padding: 20px 15px;
+            width: 92%;
+            background: rgba(245, 245, 245, 0.85);
+            backdrop-filter: blur(12px);
+            -webkit-backdrop-filter: blur(12px);
+            color: #1c1c1e;
+            padding: 14px 16px;
             display: flex;
             align-items: center;
-            gap: 15px;
-            box-shadow: 0 5px 20px rgba(0, 0, 0, 0.6);
-            z-index: 5;
+            gap: 12px;
+            box-shadow: 0 8px 30px rgba(0, 0, 0, 0.4);
+            z-index: 10010;
             transition: top 0.5s cubic-bezier(0.175, 0.885, 0.32, 1.275);
             border-radius: 20px;
-            /* Aplica arredondamento igual em todas as pontas */
         }
 
-        /* --- ÍCONE NUBANK --- */
-        .nubank-icon {
+        .nubank-img {
             width: 44px;
             height: 44px;
-            background-color: #8A05BE;
-            /* O roxo oficial do Nubank */
-            border-radius: 10px;
-            display: flex;
-            justify-content: center;
-            align-items: center;
-            color: #ffffff;
-            font-weight: 700;
-            font-size: 20px;
-            letter-spacing: -1px;
-            /* Junta as letrinhas "nu" */
+            border-radius: 12px;
+            object-fit: cover;
             flex-shrink: 0;
         }
 
-        .bank-info b {
+        .bank-info {
+            flex: 1;
+            display: flex;
+            flex-direction: column;
+            gap: 2px;
+        }
+
+        .info-header {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            width: 100%;
+        }
+
+        .info-header b {
+            font-size: 15px;
+            font-weight: 600;
+            color: #000;
+        }
+
+        .time-now {
+            font-size: 12px;
+            color: #8e8e93;
+        }
+
+        .notif-desc {
+            font-size: 14px;
+            color: #3a3a3c;
+            line-height: 1.3;
             display: block;
-            font-size: 16px;
-            /* Fonte maior */
-        }
-
-        .bank-info span {
-            font-size: 13px;
-            /* Fonte maior */
-            color: #555;
-            display: block;
-            margin-top: 4px;
-        }
-
-        /* Adicionando z-index nas outras áreas para garantir que a notificação fique atrás */
-        .top-header {
-            z-index: 10;
-        }
-
-        .scrollable-content {
-            z-index: 8;
-            position: relative;
         }
     </style>
 </head>
@@ -821,11 +815,14 @@
     <div class="app-container">
 
         <div id="bankNotification" class="bank-notification">
-            <div class="nubank-icon">nu</div>
+            <img src="nubank.png" alt="Nubank Logo" class="nubank-img">
 
             <div class="bank-info">
-                <b>Transferência Recebida</b>
-                <span>Você recebeu um Pix de R$ 43,67 de YGaming Play.</span>
+                <div class="info-header">
+                    <b>Transferência recebida</b>
+                    <span class="time-now">agora</span>
+                </div>
+                <span class="notif-desc">Você recebeu uma transferência de R$ 43,67 de YGaming Play.</span>
             </div>
         </div>
 
@@ -845,26 +842,73 @@
             <div class="logo-area">
                 <img src="logo.png" alt="YGaming Logo" class="logo-img">
             </div>
+
             <div class="header-actions">
-                <div class="header-balance">
-                    <div class="main-val">
-                        <div class="coin-icon-small"></div> <span id="topCoinBalance">514</span>
+                <div class="counter-pill">
+                    <div class="counter-item">
+                        <svg width="18" height="18" viewBox="0 0 16 16" fill="none" xmlns="http://www.w3.org/2000/svg">
+                            <circle cx="8" cy="8" r="8" fill="url(#coinGrad)" />
+                            <circle cx="8" cy="8" r="7.5" stroke="#FFCC66" stroke-opacity="0.5" />
+                            <ellipse cx="8.5" cy="7" rx="3.5" ry="1" fill="#FFE17D" fill-opacity="0.3" />
+                            <path
+                                d="M8 3.5C5.51472 3.5 3.5 5.51472 3.5 8C3.5 10.4853 5.51472 12.5 8 12.5C10.4853 12.5 12.5 10.4853 12.5 8C12.5 5.51472 10.4853 3.5 8 3.5ZM8 11.5C6.067 11.5 4.5 9.933 4.5 8C4.5 6.067 6.067 4.5 8 4.5C9.933 4.5 11.5 6.067 11.5 8C11.5 9.933 9.933 11.5 8 11.5Z"
+                                fill="#F99D21" />
+                            <path
+                                d="M8 5C6.34315 5 5 6.34315 5 8C5 9.65685 6.34315 11 8 11C9.65685 11 11 9.65685 11 8C11 6.34315 9.65685 5 8 5ZM8 10C6.89543 10 6 9.10457 6 8C6 6.89543 6.89543 6 8 6C9.10457 6 10 6.89543 10 8C10 9.10457 9.10457 10 8 10Z"
+                                fill="#FFE17D" />
+                            <defs>
+                                <radialGradient id="coinGrad" cx="50%" cy="50%" r="50%">
+                                    <stop offset="0%" stop-color="#FFE17D" />
+                                    <stop offset="100%" stop-color="#E6A323" />
+                                </radialGradient>
+                            </defs>
+                        </svg>
+                        <span id="topCoinBalance" class="count">514</span>
                     </div>
-                    <div class="bonus-val">Bônus: <span>10</span></div>
+
+                    <span class="separator">|</span>
+
+                    <div class="counter-item">
+                        <svg width="18" height="18" viewBox="0 0 16 16" fill="none" xmlns="http://www.w3.org/2000/svg">
+                            <rect x="1" y="5" width="14" height="10" rx="2" fill="url(#giftGrad)" />
+                            <path d="M4 1L6 3M12 1L10 3" stroke="#F99D21" stroke-width="2" stroke-linecap="round" />
+                            <path d="M1 5H15V7H1V5Z" fill="#FFE17D" />
+                            <path d="M8 5V15" stroke="#F99D21" stroke-width="2" />
+                            <rect x="1.5" y="5.5" width="13" height="9" rx="1.5" stroke="#FFCC66"
+                                stroke-opacity="0.5" />
+                            <defs>
+                                <radialGradient id="giftGrad" cx="50%" cy="50%" r="50%">
+                                    <stop offset="0%" stop-color="#FFE17D" />
+                                    <stop offset="100%" stop-color="#E6A323" />
+                                </radialGradient>
+                            </defs>
+                        </svg>
+                        <span class="count">10</span>
+                    </div>
                 </div>
 
-                <span class="lang-text">BR</span>
-
-                <div class="theme-toggle">
-                    <svg viewBox="0 0 24 24" fill="none" stroke-width="2" stroke-linecap="round"
-                        stroke-linejoin="round">
-                        <path d="M21 12.79A9 9 0 1 1 11.21 3 7 7 0 0 0 21 12.79z"></path>
+                <div class="lang-selector">
+                    <svg width="22" height="16" viewBox="0 0 36 26" fill="none" xmlns="http://www.w3.org/2000/svg">
+                        <rect width="36" height="26" rx="4" fill="#009C3B" />
+                        <path d="M18 4L32 13L18 22L4 13L18 4Z" fill="#FFDF00" />
+                        <circle cx="18" cy="13" r="6" fill="#002776" />
                     </svg>
                 </div>
 
-                <svg class="menu-icon" width="24" height="24" fill="#fff" viewBox="0 0 24 24">
-                    <path d="M3 18h18v-2H3v2zm0-5h18v-2H3v2zm0-7v2h18V6H3z" />
-                </svg>
+                <div class="theme-toggle-container">
+                    <div class="toggle-switch">
+                        <svg width="12" height="12" viewBox="0 0 24 24" fill="none" stroke="#F99D21" stroke-width="2"
+                            stroke-linecap="round" stroke-linejoin="round">
+                            <path d="M21 12.79A9 9 0 1 1 11.21 3 7 7 0 0 0 21 12.79z"></path>
+                        </svg>
+                    </div>
+                </div>
+
+                <div class="menu-hamburger">
+                    <span></span>
+                    <span></span>
+                    <span></span>
+                </div>
             </div>
         </header>
 
@@ -971,7 +1015,7 @@
                                 <polyline points="22 7 13.5 15.5 8.5 10.5 2 17"></polyline>
                                 <polyline points="16 7 22 7 22 13"></polyline>
                             </svg>
-                            +885.75% <span style="color:var(--text-secondary);font-weight:400;">(30d)</span>
+                            +0.00% <span style="color:var(--text-secondary);font-weight:400;">(30d)</span>
                         </div>
                     </div>
                     <div class="variation-right">
@@ -1103,7 +1147,6 @@
     <script>
         // --- FUNÇÃO DE SAQUE ANIMADA COM CONFETES E NOTIFICAÇÃO ---
         function iniciarSaque() {
-            // Verifica se tem saldo para sacar
             const saldoAtual = document.getElementById('mainCoinBalance').innerText;
             if (saldoAtual === '0') {
                 alert('Você não tem saldo suficiente para sacar.');
@@ -1117,7 +1160,6 @@
             const text = document.getElementById('modalText');
             const btnClose = document.getElementById('btnCloseModal');
 
-            // Reseta o estado do modal 
             loader.style.display = 'block';
             check.style.display = 'none';
             title.innerText = 'Enviando para o Banco...';
@@ -1126,7 +1168,6 @@
 
             modal.style.display = 'flex';
 
-            // Simula o tempo de processamento do banco (3 segundos)
             setTimeout(() => {
                 loader.style.display = 'none';
                 check.style.display = 'block';
@@ -1134,31 +1175,26 @@
                 text.innerText = 'O valor de R$ 43,67 foi enviado com sucesso para sua conta.';
                 btnClose.style.display = 'inline-block';
 
-                // Dispara os Confetes
                 confetti({
                     particleCount: 150,
                     spread: 70,
                     origin: { y: 0.6 },
                     colors: ['#0ecb71', '#f99d21', '#ffffff'],
-                    zIndex: 10000 // Fica na frente de tudo
+                    zIndex: 10000
                 });
 
-                // Zera os valores na carteira
                 document.getElementById('topCoinBalance').innerText = '0';
                 document.getElementById('mainCoinBalance').innerText = '0';
                 document.getElementById('mainCashBalance').innerText = '0,00';
                 document.getElementById('totalEarnedLabel').innerText = '+R$ 0,00';
 
-                // Mostra notificação push do banco simulada
                 setTimeout(() => {
                     const notif = document.getElementById('bankNotification');
-                    notif.style.top = '20px'; // Desce a notificação (header tem 60px)
-                    notif.style.zIndex = '10000' // Fica na frente de tudo
+                    notif.style.top = '15px';
 
-                    // Esconde a notificação após 5 segundos
                     setTimeout(() => {
                         notif.style.top = '-120px';
-                    }, 7000);
+                    }, 5000);
                 }, 1000);
 
             }, 3000);
@@ -1167,7 +1203,6 @@
                 modal.style.display = 'none';
             };
         }
-
 
         // --- GERADOR DE DADOS REAIS E FLUTUANTES ---
         function generateFluctuatingData(baseValue, count, variance) {
@@ -1182,7 +1217,6 @@
             return data;
         }
 
-        // Simulando Carregamento do Gráfico
         setTimeout(() => {
             document.getElementById('chartLoader').style.display = 'none';
             const canvas = document.getElementById('coinChart');
@@ -1239,10 +1273,7 @@
                         }
                     },
                     scales: {
-                        x: {
-                            display: false,
-                            grid: { display: false },
-                        },
+                        x: { display: false, grid: { display: false } },
                         y: {
                             display: false,
                             grid: { display: false },
@@ -1258,8 +1289,6 @@
             });
         }, 1500);
 
-        // Lista de Histórico Expandida
-        // Lista de Histórico Realista e Variada
         const historyData = [
             { title: 'Fortune Tiger', date: 'Today, 15:42', amount: '+50' },
             { title: 'Mines', date: 'Today, 15:10', amount: '0' },
@@ -1314,20 +1343,13 @@
             historyContainer.appendChild(itemEl);
         });
 
-        // Registra o Service Worker para habilitar o PWA
         if ('serviceWorker' in navigator) {
             window.addEventListener('load', () => {
                 navigator.serviceWorker.register('sw.js')
-                    .then(registration => {
-                        console.log('ServiceWorker registrado com sucesso: ', registration.scope);
-                    })
-                    .catch(err => {
-                        console.log('Falha ao registrar o ServiceWorker: ', err);
-                    });
+                    .catch(err => console.log('SW Error: ', err));
             });
         }
     </script>
-
 </body>
 
 </html>
