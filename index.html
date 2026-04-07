@@ -51,6 +51,7 @@
             display: flex;
             justify-content: center;
             height: 100vh;
+            height: 100dvh;
             overflow: hidden;
         }
 
@@ -61,7 +62,7 @@
             background-color: var(--bg-main);
             display: flex;
             flex-direction: column;
-            height: 100vh;
+            height: 100%;
             position: relative;
         }
 
@@ -173,7 +174,7 @@
         .scrollable-content {
             flex: 1;
             overflow-y: auto;
-            padding: 24px 16px;
+            padding: 24px 16px 90px 16px;
         }
 
         .scrollable-content::-webkit-scrollbar {
@@ -472,10 +473,10 @@
             border: 3px solid var(--border-color);
             border-top-color: var(--accent-green);
             border-radius: 50%;
-            animation: spin 1s linear infinite;
+            animation: spin-chart 1s linear infinite;
         }
 
-        @keyframes spin {
+        @keyframes spin-chart {
             to {
                 transform: translate(-50%, -50%) rotate(360deg);
             }
@@ -632,16 +633,19 @@
             color: var(--text-yellow);
         }
 
-        /* --- BOTTOM TAB BAR (FIXA) --- */
+        /* --- BOTTOM TAB BAR (FIXA E PREGADA NO FUNDO) --- */
         .bottom-tab-bar {
+            position: absolute;
+            bottom: 0;
+            left: 0;
+            width: 100%;
             background-color: var(--bg-nav);
             height: 65px;
-            flex-shrink: 0;
             display: flex;
             justify-content: space-around;
             align-items: center;
             border-top: 1px solid var(--border-color);
-            z-index: 10;
+            z-index: 1000;
         }
 
         .tab-item {
@@ -700,10 +704,9 @@
             display: block;
         }
 
-        /* --- POPUP DE SAQUE --- */
+        /* --- POPUP DE SAQUE E LOADING DO BANCO --- */
         .modal-overlay {
             position: absolute;
-            /* Mudado de fixed para absolute para ficar dentro do .app-container */
             top: 0;
             left: 0;
             width: 100%;
@@ -712,7 +715,7 @@
             display: none;
             justify-content: center;
             align-items: center;
-            z-index: 100;
+            z-index: 9999;
         }
 
         .modal-content {
@@ -731,8 +734,14 @@
             border: 4px solid #1a2233;
             border-top-color: var(--accent-green);
             border-radius: 50%;
-            animation: spin 1s linear infinite;
+            animation: spin-modal 1s linear infinite;
             margin: 0 auto 20px;
+        }
+
+        @keyframes spin-modal {
+            to {
+                transform: rotate(360deg);
+            }
         }
 
         .success-icon {
@@ -741,38 +750,56 @@
             margin-bottom: 15px;
         }
 
-        /* --- NOTIFICAÇÃO DO BANCO --- */
+        /* --- NOTIFICAÇÃO DO BANCO (Maior e Atrás) --- */
         .bank-notification {
             position: absolute;
-            top: -100px;
-            left: 10px;
-            right: 10px;
-            background: #fff;
+            top: -60px;
+            left: 0;
+            right: 0;
+            margin: 0 auto;
+            /* Essa é a linha mágica que centraliza */
+            width: 95%;
+            background: #ffffff;
             color: #000;
-            padding: 15px;
-            border-radius: 18px;
+            padding: 20px 15px;
             display: flex;
             align-items: center;
-            gap: 12px;
-            box-shadow: 0 10px 30px rgba(0, 0, 0, 0.5);
-            z-index: 200;
+            gap: 15px;
+            box-shadow: 0 5px 20px rgba(0, 0, 0, 0.6);
+            z-index: 5;
             transition: top 0.5s cubic-bezier(0.175, 0.885, 0.32, 1.275);
+            border-radius: 20px;
+            /* Aplica arredondamento igual em todas as pontas */
         }
 
         .bank-notification img {
-            width: 40px;
-            height: 40px;
+            width: 48px;
+            height: 48px;
             border-radius: 8px;
         }
 
         .bank-info b {
             display: block;
-            font-size: 14px;
+            font-size: 16px;
+            /* Fonte maior */
         }
 
         .bank-info span {
-            font-size: 12px;
-            color: #666;
+            font-size: 13px;
+            /* Fonte maior */
+            color: #555;
+            display: block;
+            margin-top: 4px;
+        }
+
+        /* Adicionando z-index nas outras áreas para garantir que a notificação fique atrás */
+        .top-header {
+            z-index: 10;
+        }
+
+        .scrollable-content {
+            z-index: 8;
+            position: relative;
         }
     </style>
 </head>
@@ -808,7 +835,7 @@
             <div class="header-actions">
                 <div class="header-balance">
                     <div class="main-val">
-                        <div class="coin-icon-small"></div> 514
+                        <div class="coin-icon-small"></div> <span id="topCoinBalance">514</span>
                     </div>
                     <div class="bonus-val">Bônus: <span>10</span></div>
                 </div>
@@ -845,10 +872,10 @@
                 </div>
                 <div class="balance-amount-row">
                     <div class="coin-icon"></div>
-                    <span class="balance-amount">514</span>
+                    <span id="mainCoinBalance" class="balance-amount">514</span>
                 </div>
                 <div class="balance-approx">
-                    ≈ R$ 43,67
+                    ≈ R$ <span id="mainCashBalance">43,67</span>
                     <svg width="14" height="14" fill="none" stroke="currentColor" stroke-width="2" viewBox="0 0 24 24">
                         <circle cx="12" cy="12" r="10"></circle>
                         <path d="M12 16v-4"></path>
@@ -887,7 +914,7 @@
                     </div>
                     <div class="stat-info">
                         <span class="stat-label">Total Earned</span>
-                        <span class="stat-value green">+R$ 43,67</span>
+                        <span id="totalEarnedLabel" class="stat-value green">+R$ 43,67</span>
                     </div>
                 </div>
                 <div class="stat-card">
@@ -931,7 +958,7 @@
                                 <polyline points="22 7 13.5 15.5 8.5 10.5 2 17"></polyline>
                                 <polyline points="16 7 22 7 22 13"></polyline>
                             </svg>
-                            +0.00% <span style="color:var(--text-secondary);font-weight:400;">(30d)</span>
+                            +885.75% <span style="color:var(--text-secondary);font-weight:400;">(30d)</span>
                         </div>
                     </div>
                     <div class="variation-right">
@@ -1061,8 +1088,15 @@
     </div>
 
     <script>
-        // --- FUNÇÃO DE SAQUE ANIMADA ---
+        // --- FUNÇÃO DE SAQUE ANIMADA COM CONFETES E NOTIFICAÇÃO ---
         function iniciarSaque() {
+            // Verifica se tem saldo para sacar
+            const saldoAtual = document.getElementById('mainCoinBalance').innerText;
+            if (saldoAtual === '0') {
+                alert('Você não tem saldo suficiente para sacar.');
+                return;
+            }
+
             const modal = document.getElementById('saqueModal');
             const loader = document.getElementById('modalLoader');
             const check = document.getElementById('modalCheck');
@@ -1070,7 +1104,7 @@
             const text = document.getElementById('modalText');
             const btnClose = document.getElementById('btnCloseModal');
 
-            // Reseta o estado do modal caso abra novamente
+            // Reseta o estado do modal 
             loader.style.display = 'block';
             check.style.display = 'none';
             title.innerText = 'Enviando para o Banco...';
@@ -1079,7 +1113,7 @@
 
             modal.style.display = 'flex';
 
-            // Simula o tempo de envio (3 segundos)
+            // Simula o tempo de processamento do banco (3 segundos)
             setTimeout(() => {
                 loader.style.display = 'none';
                 check.style.display = 'block';
@@ -1087,31 +1121,37 @@
                 text.innerText = 'O valor de R$ 43,67 foi enviado com sucesso para sua conta.';
                 btnClose.style.display = 'inline-block';
 
-                // Solta Confetes usando a biblioteca canvas-confetti
+                // Dispara os Confetes
                 confetti({
                     particleCount: 150,
                     spread: 70,
                     origin: { y: 0.6 },
                     colors: ['#0ecb71', '#f99d21', '#ffffff'],
-                    zIndex: 200 // Garante que os confetes fiquem na frente do modal
+                    zIndex: 10000 // Fica na frente de tudo
                 });
 
-                // Mostra notificação do banco após 1 segundo do sucesso
+                // Zera os valores na carteira
+                document.getElementById('topCoinBalance').innerText = '0';
+                document.getElementById('mainCoinBalance').innerText = '0';
+                document.getElementById('mainCashBalance').innerText = '0,00';
+                document.getElementById('totalEarnedLabel').innerText = '+R$ 0,00';
+
+                // Mostra notificação push do banco simulada
                 setTimeout(() => {
                     const notif = document.getElementById('bankNotification');
-                    notif.style.top = '15px';
-                    // Some após 5 segundos
+                    notif.style.top = '20px'; // Desce a notificação (header tem 60px)
+                    notif.style.zIndex = '10000' // Fica na frente de tudo
+
+                    // Esconde a notificação após 5 segundos
                     setTimeout(() => {
-                        notif.style.top = '-100px';
-                    }, 5000);
+                        notif.style.top = '-60px';
+                    }, 7000);
                 }, 1000);
 
             }, 3000);
 
             btnClose.onclick = () => {
                 modal.style.display = 'none';
-                // Opcional: recarregar a página ou zerar os valores aqui
-                // location.reload(); 
             };
         }
 

@@ -4,8 +4,8 @@
   "description": "Gerencie suas coins e ganhos.",
   "start_url": "/",
   "display": "standalone",
-  "background_color": "#0b111a",
-  "theme_color": "#0b111a",
+  "background_color": "#000000",
+  "theme_color": "#000000",
   "orientation": "portrait",
   "icons": [
     {
