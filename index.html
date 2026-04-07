@@ -772,10 +772,22 @@
             /* Aplica arredondamento igual em todas as pontas */
         }
 
-        .bank-notification img {
-            width: 48px;
-            height: 48px;
-            border-radius: 8px;
+        /* --- ÍCONE NUBANK --- */
+        .nubank-icon {
+            width: 44px;
+            height: 44px;
+            background-color: #8A05BE;
+            /* O roxo oficial do Nubank */
+            border-radius: 10px;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            color: #ffffff;
+            font-weight: 700;
+            font-size: 20px;
+            letter-spacing: -1px;
+            /* Junta as letrinhas "nu" */
+            flex-shrink: 0;
         }
 
         .bank-info b {
@@ -809,7 +821,8 @@
     <div class="app-container">
 
         <div id="bankNotification" class="bank-notification">
-            <img src="https://img.icons8.com/color/96/bank.png" alt="Bank">
+            <div class="nubank-icon">nu</div>
+
             <div class="bank-info">
                 <b>Transferência Recebida</b>
                 <span>Você recebeu um Pix de R$ 43,67 de YGaming Play.</span>
