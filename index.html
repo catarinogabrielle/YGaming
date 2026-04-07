@@ -5,10 +5,10 @@
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no">
     <title>Wallet Interface - YGaming</title>
-    
+
     <link rel="manifest" href="manifest.json">
     <meta name="theme-color" content="#0b111a">
-    
+
     <meta name="apple-mobile-web-app-capable" content="yes">
     <meta name="apple-mobile-web-app-status-bar-style" content="black-translucent">
     <meta name="apple-mobile-web-app-title" content="YGaming">
@@ -18,6 +18,7 @@
     <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700;800;900&display=swap"
         rel="stylesheet">
     <script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
+    <script src="https://cdn.jsdelivr.net/npm/canvas-confetti@1.6.0/dist/confetti.browser.min.js"></script>
     <style>
         :root {
             --bg-main: #0b111a;
@@ -262,23 +263,50 @@
             margin-bottom: 24px;
         }
 
+        /* --- BOTÃO SACAR AUMENTADO E COM ANIMAÇÃO MAIS RÁPIDA --- */
         .btn-sacar {
             width: 100%;
             margin: 0 auto;
             display: flex;
             align-items: center;
             justify-content: center;
-            gap: 8px;
-            background: #fcaf3b;
-            border: 1px solid #fbd085;
-            box-shadow: 0 4px 12px rgba(249, 157, 33, 0.3);
-            color: #110900;
-            padding: 12px;
-            border-radius: 12px;
-            font-size: 15px;
-            font-weight: 700;
+            gap: 10px;
+            background: var(--accent-green);
+            border: 1px solid #10b981;
+            box-shadow: 0 0 15px rgba(14, 203, 113, 0.5);
+            color: #ffffff;
+            padding: 16px;
+            border-radius: 14px;
+            font-size: 18px;
+            font-weight: 800;
+            text-transform: uppercase;
+            letter-spacing: 1px;
             cursor: pointer;
-            transition: 0.2s;
+            transition: all 0.3s ease;
+            animation: pulse-btn 1.2s infinite;
+        }
+
+        .btn-sacar:hover {
+            transform: scale(1.05);
+            box-shadow: 0 0 25px rgba(14, 203, 113, 0.9);
+            animation-play-state: paused;
+        }
+
+        @keyframes pulse-btn {
+            0% {
+                transform: scale(1);
+                box-shadow: 0 0 0 0 rgba(14, 203, 113, 0.8);
+            }
+
+            50% {
+                transform: scale(1.04);
+                box-shadow: 0 0 0 15px rgba(14, 203, 113, 0);
+            }
+
+            100% {
+                transform: scale(1);
+                box-shadow: 0 0 0 0 rgba(14, 203, 113, 0);
+            }
         }
 
         .stats-row {
@@ -347,20 +375,20 @@
             border-radius: 16px;
             border: 1px solid var(--border-color);
             margin-bottom: 24px;
-            overflow: hidden; 
-            padding: 0; 
+            overflow: hidden;
+            padding: 0;
         }
 
         .chart-header-row,
         .chart-price-area {
-            padding: 20px 20px 0 20px; 
+            padding: 20px 20px 0 20px;
         }
 
         .chart-price-area {
             display: flex;
             justify-content: space-between;
             align-items: flex-end;
-            margin-bottom: 20px; 
+            margin-bottom: 20px;
         }
 
         .chart-header {
@@ -428,9 +456,9 @@
         }
 
         #coinChart {
-            opacity: 0; 
+            opacity: 0;
             transition: opacity 0.5s ease-in;
-            width: 100%; 
+            width: 100%;
             height: 100%;
         }
 
@@ -665,12 +693,86 @@
             border-radius: 50%;
         }
 
-        /* CLASSE NOVA PARA O SEU ÍCONE PNG NA TAB BAR */
         .nav-png-icon {
             width: 24px;
             height: 24px;
             object-fit: contain;
             display: block;
+        }
+
+        /* --- POPUP DE SAQUE --- */
+        .modal-overlay {
+            position: absolute;
+            /* Mudado de fixed para absolute para ficar dentro do .app-container */
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            background: rgba(0, 0, 0, 0.85);
+            display: none;
+            justify-content: center;
+            align-items: center;
+            z-index: 100;
+        }
+
+        .modal-content {
+            background: var(--bg-card);
+            padding: 30px;
+            border-radius: 24px;
+            border: 1px solid var(--border-color);
+            width: 85%;
+            max-width: 320px;
+            text-align: center;
+        }
+
+        .bank-loader {
+            width: 60px;
+            height: 60px;
+            border: 4px solid #1a2233;
+            border-top-color: var(--accent-green);
+            border-radius: 50%;
+            animation: spin 1s linear infinite;
+            margin: 0 auto 20px;
+        }
+
+        .success-icon {
+            font-size: 50px;
+            display: none;
+            margin-bottom: 15px;
+        }
+
+        /* --- NOTIFICAÇÃO DO BANCO --- */
+        .bank-notification {
+            position: absolute;
+            top: -100px;
+            left: 10px;
+            right: 10px;
+            background: #fff;
+            color: #000;
+            padding: 15px;
+            border-radius: 18px;
+            display: flex;
+            align-items: center;
+            gap: 12px;
+            box-shadow: 0 10px 30px rgba(0, 0, 0, 0.5);
+            z-index: 200;
+            transition: top 0.5s cubic-bezier(0.175, 0.885, 0.32, 1.275);
+        }
+
+        .bank-notification img {
+            width: 40px;
+            height: 40px;
+            border-radius: 8px;
+        }
+
+        .bank-info b {
+            display: block;
+            font-size: 14px;
+        }
+
+        .bank-info span {
+            font-size: 12px;
+            color: #666;
         }
     </style>
 </head>
@@ -679,6 +781,26 @@
 
     <div class="app-container">
 
+        <div id="bankNotification" class="bank-notification">
+            <img src="https://img.icons8.com/color/96/bank.png" alt="Bank">
+            <div class="bank-info">
+                <b>Transferência Recebida</b>
+                <span>Você recebeu um Pix de R$ 43,67 de YGaming Play.</span>
+            </div>
+        </div>
+
+        <div id="saqueModal" class="modal-overlay">
+            <div class="modal-content">
+                <div id="modalLoader" class="bank-loader"></div>
+                <div id="modalCheck" class="success-icon">✅</div>
+                <h2 id="modalTitle" style="margin-bottom: 10px;">Enviando para o Banco...</h2>
+                <p id="modalText" style="color: var(--text-secondary); font-size: 14px;">Processando seu pedido de saque
+                    via Pix.</p>
+                <button id="btnCloseModal"
+                    style="display:none; margin-top:20px; background:none; border:1px solid var(--border-color); color:#fff; padding:8px 20px; border-radius:8px; cursor:pointer;">Fechar</button>
+            </div>
+        </div>
+
         <header class="top-header">
             <div class="logo-area">
                 <img src="logo.png" alt="YGaming Logo" class="logo-img">
@@ -686,7 +808,7 @@
             <div class="header-actions">
                 <div class="header-balance">
                     <div class="main-val">
-                        <div class="coin-icon-small"></div> 0
+                        <div class="coin-icon-small"></div> 514
                     </div>
                     <div class="bonus-val">Bônus: <span>10</span></div>
                 </div>
@@ -723,10 +845,10 @@
                 </div>
                 <div class="balance-amount-row">
                     <div class="coin-icon"></div>
-                    <span class="balance-amount">0</span>
+                    <span class="balance-amount">514</span>
                 </div>
                 <div class="balance-approx">
-                    ≈ R$ 0,00
+                    ≈ R$ 43,67
                     <svg width="14" height="14" fill="none" stroke="currentColor" stroke-width="2" viewBox="0 0 24 24">
                         <circle cx="12" cy="12" r="10"></circle>
                         <path d="M12 16v-4"></path>
@@ -745,8 +867,8 @@
                         <path d="M12 8h.01"></path>
                     </svg>
                 </div>
-                <button class="btn-sacar">
-                    <svg width="18" height="18" fill="none" stroke="currentColor" stroke-width="2" viewBox="0 0 24 24">
+                <button class="btn-sacar" onclick="iniciarSaque()">
+                    <svg width="24" height="24" fill="none" stroke="currentColor" stroke-width="2" viewBox="0 0 24 24">
                         <path d="M7 17L17 7"></path>
                         <path d="M7 7h10v10"></path>
                     </svg>
@@ -765,7 +887,7 @@
                     </div>
                     <div class="stat-info">
                         <span class="stat-label">Total Earned</span>
-                        <span class="stat-value green">+0</span>
+                        <span class="stat-value green">+R$ 43,67</span>
                     </div>
                 </div>
                 <div class="stat-card">
@@ -939,6 +1061,61 @@
     </div>
 
     <script>
+        // --- FUNÇÃO DE SAQUE ANIMADA ---
+        function iniciarSaque() {
+            const modal = document.getElementById('saqueModal');
+            const loader = document.getElementById('modalLoader');
+            const check = document.getElementById('modalCheck');
+            const title = document.getElementById('modalTitle');
+            const text = document.getElementById('modalText');
+            const btnClose = document.getElementById('btnCloseModal');
+
+            // Reseta o estado do modal caso abra novamente
+            loader.style.display = 'block';
+            check.style.display = 'none';
+            title.innerText = 'Enviando para o Banco...';
+            text.innerText = 'Processando seu pedido de saque via Pix.';
+            btnClose.style.display = 'none';
+
+            modal.style.display = 'flex';
+
+            // Simula o tempo de envio (3 segundos)
+            setTimeout(() => {
+                loader.style.display = 'none';
+                check.style.display = 'block';
+                title.innerText = 'Dinheiro Sacado!';
+                text.innerText = 'O valor de R$ 43,67 foi enviado com sucesso para sua conta.';
+                btnClose.style.display = 'inline-block';
+
+                // Solta Confetes usando a biblioteca canvas-confetti
+                confetti({
+                    particleCount: 150,
+                    spread: 70,
+                    origin: { y: 0.6 },
+                    colors: ['#0ecb71', '#f99d21', '#ffffff'],
+                    zIndex: 200 // Garante que os confetes fiquem na frente do modal
+                });
+
+                // Mostra notificação do banco após 1 segundo do sucesso
+                setTimeout(() => {
+                    const notif = document.getElementById('bankNotification');
+                    notif.style.top = '15px';
+                    // Some após 5 segundos
+                    setTimeout(() => {
+                        notif.style.top = '-100px';
+                    }, 5000);
+                }, 1000);
+
+            }, 3000);
+
+            btnClose.onclick = () => {
+                modal.style.display = 'none';
+                // Opcional: recarregar a página ou zerar os valores aqui
+                // location.reload(); 
+            };
+        }
+
+
         // --- GERADOR DE DADOS REAIS E FLUTUANTES ---
         function generateFluctuatingData(baseValue, count, variance) {
             let data = [];
@@ -946,7 +1123,7 @@
             for (let i = 0; i < count; i++) {
                 let change = (Math.random() - 0.45) * variance;
                 current += change;
-                if (current < 0) current = 0.001; 
+                if (current < 0) current = 0.001;
                 data.push(current);
             }
             return data;
@@ -977,18 +1154,18 @@
                         borderWidth: 2,
                         backgroundColor: gradient,
                         fill: true,
-                        pointRadius: 0, 
+                        pointRadius: 0,
                         pointHoverRadius: 6,
                         pointHoverBackgroundColor: '#f99d21',
                         pointHoverBorderColor: '#fff',
                         pointHoverBorderWidth: 2,
-                        tension: 0.4 
+                        tension: 0.4
                     }]
                 },
                 options: {
                     responsive: true,
                     maintainAspectRatio: false,
-                    layout: { padding: 0 }, 
+                    layout: { padding: 0 },
                     plugins: {
                         legend: { display: false },
                         tooltip: {
@@ -1001,7 +1178,7 @@
                             padding: 10,
                             displayColors: false,
                             callbacks: {
-                                title: () => '', 
+                                title: () => '',
                                 label: function (context) {
                                     return `1 🪙 = R$ ${context.parsed.y.toFixed(4)}`;
                                 }
@@ -1010,11 +1187,11 @@
                     },
                     scales: {
                         x: {
-                            display: false, 
+                            display: false,
                             grid: { display: false },
                         },
                         y: {
-                            display: false, 
+                            display: false,
                             grid: { display: false },
                             min: Math.min(...realFluctuatingData) * 0.95,
                             max: Math.max(...realFluctuatingData) * 1.05,
@@ -1026,10 +1203,22 @@
                     }
                 }
             });
-        }, 1500); 
+        }, 1500);
 
         // Lista de Histórico Expandida
         const historyData = [
+            { title: 'Daily Free Spin', date: 'Today, 14:07', amount: '+1' },
+            { title: 'Daily Free Spin', date: 'Today, 14:07', amount: '0' },
+            { title: 'Daily Free Spin', date: 'Today, 14:06', amount: '+2' },
+            { title: 'Daily Free Spin', date: 'Today, 14:06', amount: '+2' },
+            { title: 'Daily Free Spin', date: 'Today, 14:06', amount: '+5' },
+            { title: 'Daily Free Spin', date: 'Yesterday, 20:30', amount: '+1' },
+            { title: 'Daily Free Spin', date: 'Yesterday, 14:10', amount: '0' },
+            { title: 'Daily Free Spin', date: '05 de abr.', amount: '+10' },
+            { title: 'Daily Free Spin', date: '05 de abr.', amount: '+2' },
+            { title: 'Daily Free Spin', date: '04 de abr.', amount: '+1' },
+            { title: 'Daily Free Spin', date: '04 de abr.', amount: '0' },
+            { title: 'Daily Free Spin', date: '03 de abr.', amount: '+5' },
             { title: 'Daily Free Spin', date: 'Today, 14:07', amount: '+1' },
             { title: 'Daily Free Spin', date: 'Today, 14:07', amount: '0' },
             { title: 'Daily Free Spin', date: 'Today, 14:06', amount: '+2' },
