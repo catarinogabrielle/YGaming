@@ -337,21 +337,20 @@
             border-radius: 16px;
             border: 1px solid var(--border-color);
             margin-bottom: 24px;
-            overflow: hidden; /* Mantém o gráfico dentro do raio da borda */
-            padding: 0; /* REMOVIDO PADDING DO CONTAINER PRINCIPAL */
+            overflow: hidden; 
+            padding: 0; 
         }
 
-        /* Sub-containers para manter o padding interno dos textos */
         .chart-header-row,
         .chart-price-area {
-            padding: 20px 20px 0 20px; /* Padding apenas no topo e laterais */
+            padding: 20px 20px 0 20px; 
         }
 
         .chart-price-area {
             display: flex;
             justify-content: space-between;
             align-items: flex-end;
-            margin-bottom: 20px; /* Mantém espaço antes do canvas */
+            margin-bottom: 20px; 
         }
 
         .chart-header {
@@ -419,9 +418,9 @@
         }
 
         #coinChart {
-            opacity: 0; /* Começa invisível para o fade-in */
+            opacity: 0; 
             transition: opacity 0.5s ease-in;
-            width: 100%; /* Garante preenchimento total */
+            width: 100%; 
             height: 100%;
         }
 
@@ -654,6 +653,14 @@
             height: 6px;
             background-color: var(--accent-red);
             border-radius: 50%;
+        }
+
+        /* CLASSE NOVA PARA O SEU ÍCONE PNG NA TAB BAR */
+        .nav-png-icon {
+            width: 24px;
+            height: 24px;
+            object-fit: contain;
+            display: block;
         }
     </style>
 </head>
@@ -910,11 +917,10 @@
                 </div>
                 Carteira
             </div>
+
             <div class="tab-item">
                 <div class="tab-icon-wrapper">
-                    <svg width="24" height="24" fill="currentColor" viewBox="0 0 24 24">
-                        <path d="M3 18h18v-2H3v2zm0-5h18v-2H3v2zm0-7v2h18V6H3z" />
-                    </svg>
+                    <img src="seu-icone.png" alt="Ícone Personalizado" class="nav-png-icon">
                 </div>
                 Mais
             </div>
@@ -928,10 +934,9 @@
             let data = [];
             let current = baseValue;
             for (let i = 0; i < count; i++) {
-                // Adiciona uma flutuação aleatória sutil baseada na variância
-                let change = (Math.random() - 0.45) * variance; // Maior chance de subir levemente
+                let change = (Math.random() - 0.45) * variance;
                 current += change;
-                if (current < 0) current = 0.001; // Impede valor negativo
+                if (current < 0) current = 0.001; 
                 data.push(current);
             }
             return data;
@@ -939,20 +944,16 @@
 
         // Simulando Carregamento do Gráfico
         setTimeout(() => {
-            // Esconde o loader e mostra o canvas
             document.getElementById('chartLoader').style.display = 'none';
             const canvas = document.getElementById('coinChart');
             canvas.style.opacity = '1';
 
-            // Inicialização do Chart.js
             const ctx = canvas.getContext('2d');
             let gradient = ctx.createLinearGradient(0, 0, 0, 140);
             gradient.addColorStop(0, 'rgba(14, 203, 113, 0.25)');
             gradient.addColorStop(1, 'rgba(14, 203, 113, 0)');
 
-            // Gera 20 pontos de dados flutuantes baseados no valor real R$ 0,2098
             const realFluctuatingData = generateFluctuatingData(0.2098, 20, 0.005);
-            // Cria labels vazios para os 20 pontos
             const labels = Array(20).fill('');
 
             const chart = new Chart(ctx, {
@@ -966,19 +967,17 @@
                         borderWidth: 2,
                         backgroundColor: gradient,
                         fill: true,
-                        pointRadius: 0, // Remove os pontos para linha parecer contínua
+                        pointRadius: 0, 
                         pointHoverRadius: 6,
                         pointHoverBackgroundColor: '#f99d21',
                         pointHoverBorderColor: '#fff',
                         pointHoverBorderWidth: 2,
-                        // stepped: 'before', // REMOVIDO PARA PARECER REAL E CURVO
-                        tension: 0.4 // ADICIONADO PARA SUAVIZAR A LINHA (CURVAS NATURAIS)
+                        tension: 0.4 
                     }]
                 },
                 options: {
                     responsive: true,
                     maintainAspectRatio: false,
-                    // REMOVIDO LAYOUT PADDING PARA ENCOSTAR NAS BORDAS
                     layout: { padding: 0 }, 
                     plugins: {
                         legend: { display: false },
@@ -992,7 +991,6 @@
                             padding: 10,
                             displayColors: false,
                             callbacks: {
-                                // Título vazio já que não temos labels de tempo reais
                                 title: () => '', 
                                 label: function (context) {
                                     return `1 🪙 = R$ ${context.parsed.y.toFixed(4)}`;
@@ -1002,13 +1000,12 @@
                     },
                     scales: {
                         x: {
-                            display: false, // Esconde eixo X para visual limpo de borda a borda
+                            display: false, 
                             grid: { display: false },
                         },
                         y: {
-                            display: false, // Esconde eixo Y
+                            display: false, 
                             grid: { display: false },
-                            // Define um min/max sutil baseado nos dados gerados para centralizar a linha
                             min: Math.min(...realFluctuatingData) * 0.95,
                             max: Math.max(...realFluctuatingData) * 1.05,
                         }
@@ -1019,7 +1016,7 @@
                     }
                 }
             });
-        }, 1500); // Fim do setTimeout (1.5 segundos de loading)
+        }, 1500); 
 
         // Lista de Histórico Expandida
         const historyData = [
@@ -1037,7 +1034,6 @@
             { title: 'Daily Free Spin', date: '03 de abr.', amount: '+5' }
         ];
 
-        // Atualiza o contador de histórico com base no tamanho do Array
         document.getElementById('historyCounter').innerText = `(${historyData.length} de ${historyData.length})`;
 
         const historyContainer = document.getElementById('historyList');
