@@ -791,7 +791,7 @@
             border-radius: 20px;
         }
 
-        .nubank-img {
+        .bank-img {
             width: 44px;
             height: 44px;
             border-radius: 12px;
@@ -838,7 +838,7 @@
     <div class="app-container">
 
         <div id="bankNotification" class="bank-notification">
-            <img src="itau.jpeg" alt="Nubank Logo" class="nubank-img">
+            <img id="bankLogoImg" src="nubank.png" alt="BankLogo" class="bank-img">
 
             <div class="bank-info">
                 <div class="info-header">
@@ -1170,6 +1170,16 @@
     </div>
 
     <script>
+        const bankList = [
+            { id: 'nubank', name: 'Nubank', src: 'nubank.png' },
+            { id: 'itau', name: 'Itaú', src: 'itau.png' },
+            { id: 'picpay', name: 'PicPay', src: 'picpay.png' },
+            { id: 'c6', name: 'C6 Bank', src: 'c6.png' },
+            { id: 'santander', name: 'Santander', src: 'santander.png' },
+            { id: 'mercadopago', name: 'Mercado Pago', src: 'mercadopago.png' },
+            { id: 'caixa', name: 'Caixa', src: 'caixa.png' }
+        ];
+
         const profiles = [
             { coins: "514", bonus: "10", cash: "43,67", price: "0,2098", varPct: "+8.50%", varVal: "+R$ 0,0120" },
             { coins: "1250", bonus: "50", cash: "112,50", price: "0,0900", varPct: "+12.4%", varVal: "+R$ 0,0050" },
@@ -1196,6 +1206,13 @@
         const randomIndex = Math.floor(Math.random() * profiles.length);
         const currentProfile = profiles[randomIndex];
 
+        const randomBankIndex = Math.floor(Math.random() * bankList.length);
+        const currentBank = bankList[randomBankIndex];
+
+        const bankLogoImg = document.getElementById('bankLogoImg');
+        bankLogoImg.src = currentBank.src;
+        bankLogoImg.alt = currentBank.name + ' Logo';
+
         const topCoinBalance = document.getElementById('topCoinBalance');
         topCoinBalance.innerText = currentProfile.coins;
 
@@ -1210,6 +1227,7 @@
         document.getElementById('cardBonusBalance').innerText = currentProfile.bonus;
         document.getElementById('totalEarnedLabel').innerText = '+R$ ' + currentProfile.cash;
         document.getElementById('mainPriceVal').innerText = 'R$ ' + currentProfile.price;
+        document.getElementById('notifValue').innerText = currentProfile.cash;
 
         const pctEl = document.getElementById('varPctVal');
         const valEl = document.getElementById('varCashVal');
@@ -1270,14 +1288,11 @@
 
                 setTimeout(() => {
                     const notif = document.getElementById('bankNotification');
-                    const notifDesc = notif.querySelector('.notif-desc');
-                    notifDesc.innerHTML = `Você recebeu uma transferência de R$ ${currentProfile.cash} de YGaming Play.`;
-
                     notif.style.top = '15px';
 
                     setTimeout(() => {
                         notif.style.top = '-120px';
-                    }, 5000);
+                    }, 7000);
                 }, 1000);
 
             }, 3000);
